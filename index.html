@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+        <script>
+            let angle = 0;
+            let scale = 1;
+            let ds = 1;
+            let x = 0;
+            let y = 0;
+            interact('#mydiv').gesturable({
+                inertia: false,
+                onstart: function (event) {
+                    console.log("gesture start");
+                },
+                onend: function (event) {
+                    console.log("gesture end");
+                    scale *= event.scale;
+                },
+                onmove: function (event) {
+                    let div = document.getElementById('mydiv');
+                    angle += event.da;
+                    x += event.dx;
+                    y += event.dy;
+                    let sc = event.scale;
+                    console.log("gesture move", event);
+                    console.log("gesture move", x,y,angle,scale);
+                    div.style.transform = 'translate('+x+'px, '+y+'px) scale('+scale*sc+') rotate('+angle+'deg)';
+                    console.log("gesture move", div);
+
+                },
+            })
+        </script>
+        <style type="text/css">
+            body, div {
+                touch-action: none;
+                user-select: none;
+            }
+            video {
+                position: relative;
+                display: block;
+                top: 25%;
+                left: 25%;
+                width: 50%;
+                height: 50%;
+            }
+            div#mydiv {
+                top: 50px;
+                left: 50px;
+                width: 400px;
+                height: 300px;
+                display:block;
+                position: absolute;
+                background-color: red;
+                transform-origin: 200px 200px;
+
+            }
+        </style>
+    </head>
+    <body>
+        <div id="mydiv">
+            <video controls >
+                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm">
+                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/mp4">
+            </video>
+        </div>
+    </body>
+</html>
